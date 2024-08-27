@@ -1,6 +1,7 @@
 package demo;
 
 import com.ibm.broker.javacompute.MbJavaComputeNode;
+import com.ibm.broker.plugin.MbElement;
 import com.ibm.broker.plugin.MbException;
 import com.ibm.broker.plugin.MbMessage;
 import com.ibm.broker.plugin.MbMessageAssembly;
@@ -26,6 +27,16 @@ public class TimerFlow_JavaCompute extends MbJavaComputeNode {
 
 			// This depends on Kotlin and possibly other things
 			OkHttpClient ohc = new OkHttpClient().newBuilder().build();
+			
+			// Set an HTTPRequest node override as an example LE setting
+			String lastPartOfUrl = "second/part";
+			MbElement leRoot = outAssembly.getLocalEnvironment().getRootElement();
+			MbElement destination = leRoot.createElementAsFirstChild(MbElement.TYPE_NAME);
+			destination.setName("Destination");
+			MbElement http = destination.createElementAsFirstChild(MbElement.TYPE_NAME);
+			http.setName("HTTP");
+			http.createElementAsLastChild(MbElement.TYPE_NAME_VALUE, "RequestURL", "https://some.host/first/part/of/url/"+lastPartOfUrl);
+	        		
 
 			// End of user code
 			// ----------------------------------------------------------
